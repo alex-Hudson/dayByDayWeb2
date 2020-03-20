@@ -3,6 +3,7 @@
 import React, { Component } from "react";
 import Modal from "./components/Modal";
 import axios from "axios";
+import Menu from "./Menu";
 
 class App extends Component {
   constructor(props) {
@@ -116,6 +117,7 @@ class App extends Component {
   render() {
     return (
       <main className="content">
+        <Menu></Menu>
         <h1 className="text-white text-uppercase text-center my-4">Todo app</h1>
         <div className="row ">
           <div className="col-md-6 col-sm-10 mx-auto p-0">
