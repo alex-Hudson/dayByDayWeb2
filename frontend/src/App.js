@@ -13,7 +13,8 @@ class App extends Component {
       activeItem: {
         title: "",
         description: "",
-        completed: false
+        completed: false,
+        pub_date: ""
       },
       todoList: []
     };
@@ -68,6 +69,7 @@ class App extends Component {
           title={item.description}
         >
           {item.title}
+          {item.pub_date}
         </span>
         <span>
           <button
@@ -108,7 +110,7 @@ class App extends Component {
       .then(res => this.refreshList());
   };
   createItem = () => {
-    const item = { title: "", description: "", completed: false };
+    const item = { title: "", description: "", completed: false, pub_date: "" };
     this.setState({ activeItem: item, modal: !this.state.modal });
   };
   editItem = item => {
@@ -118,7 +120,9 @@ class App extends Component {
     return (
       <main className="content">
         <Menu></Menu>
-        <h1 className="text-white text-uppercase text-center my-4">Todo app</h1>
+        <h1 className="text-white text-uppercase text-center my-4">
+          Day By Day
+        </h1>
         <div className="row ">
           <div className="col-md-6 col-sm-10 mx-auto p-0">
             <div className="card p-3">

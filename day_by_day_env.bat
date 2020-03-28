@@ -1,0 +1,1 @@
+C:\Program_Files\Python38\env\Scripts\activate
