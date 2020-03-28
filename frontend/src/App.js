@@ -86,17 +86,9 @@ class App extends Component {
           title={item.description}
         >
           {item.title}
-          {this.formatDate(item.reading_date)}
         </span>
       </li>
     ));
-  };
-
-  /**
-   *
-   */
-  toggle = () => {
-    this.setState({ modal: !this.state.modal });
   };
 
   /**
@@ -116,30 +108,18 @@ class App extends Component {
   };
 
   /**
-   * Deletes item
-   */
-  handleDelete = item => {
-    axios
-      .delete(`http://localhost:8000/api/todos/${item.id}`)
-      .then(res => this.refreshList());
-  };
-
-  /**
-   * Edit item
-   */
-  editItem = item => {
-    this.setState({ activeItem: item, modal: !this.state.modal });
-  };
-
-  /**
    * Renders main page
    */
   render() {
+    console.log(this.state.todoList);
+
     return (
       <main className="content">
         <Menu></Menu>
         <h1 className="text-white text-uppercase text-center my-4">
-          Day By Day
+          {this.formatDate(
+            this.state.todoList[0] && this.state.todoList[0].reading_date
+          )}
         </h1>
         <div className="row ">
           <div className="col-md-6 col-sm-10 mx-auto p-0">
@@ -166,6 +146,7 @@ class App extends Component {
    * @param {string} dateString
    */
   formatDate(dateString) {
+    if (!dateString) return null;
     const d = new Date(dateString);
     const dtf = new Intl.DateTimeFormat("en", {
       year: "numeric",
@@ -175,6 +156,7 @@ class App extends Component {
     const [{ value: mo }, , { value: da }, , { value: ye }] = dtf.formatToParts(
       d
     );
+    console.log(`${da}-${mo}-${ye}`);
     return `${da}-${mo}-${ye}`;
   }
 }
