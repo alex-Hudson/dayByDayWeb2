@@ -75,19 +75,17 @@ class App extends Component {
   renderItems = () => {
     const items = this.state.todoList;
     return items.map(item => (
-      <li
-        key={item.id}
-        className="list-group-item d-flex justify-content-between align-items-center"
-      >
-        <span
-          className={`todo-title mr-2 ${
-            this.state.viewCompleted ? "completed-todo" : ""
-          }`}
-          title={item.description}
+      <div>
+        <li
+          key={item.id}
+          className="list-group-item d-flex justify-content-between align-items-center"
         >
-          {item.title}
-        </span>
-      </li>
+          <span className={`todo-title mr-2`}>{item.title}</span>
+        </li>
+        <p className={"todo-item"}>{item.bible_text}</p>
+        <p className={"todo-item"}>{item.question_text}</p>
+        <p className={"todo-item"}>{item.prayer_text}</p>
+      </div>
     ));
   };
 

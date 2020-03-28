@@ -14,8 +14,8 @@ body {
   cursor: pointer;
   font-weight: bold;
 }
-.completed-todo {
-  text-decoration: line-through;
+.todo-item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 .tab-list > span {
   padding: 5px 8px;
