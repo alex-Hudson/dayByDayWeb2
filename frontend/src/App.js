@@ -3,6 +3,7 @@
 import React, { Component } from "react";
 import Modal from "./components/Modal";
 import axios from "axios";
+import logo from "./lym-rush-logo-white.png"; // Tell webpack this JS file uses this image
 
 class App extends Component {
   constructor(props) {
@@ -74,10 +75,10 @@ class App extends Component {
   renderItems = () => {
     const items = this.state.todoList;
     return items.map(item => (
-      <div key={item.id}>
+      <div className={"items"} key={item.id}>
         <li
           key={item.id}
-          className="list-group-item d-flex justify-content-between align-items-center"
+          className="d-flex justify-content-between align-items-center"
         >
           <span className={`todo-title mr-2`}>{item.title}</span>
         </li>
@@ -112,20 +113,19 @@ class App extends Component {
 
     return (
       <main className="content">
-        <h1 className="text-white text-center my-4">
+        <div className={"page-header"}>
+          <img className={"logo"} src={logo} alt="lym-logo"></img>
+        </div>
+        <h1 className="text-black text-center my-4">
           {this.formatDate(
             this.state.todoList[0] && this.state.todoList[0].reading_date
           )}
         </h1>
-        <div className="row ">
-          <div className="col-md-6 col-sm-10 mx-auto p-0">
-            <div className="card p-3">
-              <ul className="list-group list-group-flush">
-                {this.renderItems()}
-              </ul>
-            </div>
-          </div>
-        </div>
+        <div className={"back-button"}> </div>
+        <div className={"forward-button"}> </div>
+
+        <ul className="list-group list-group-flush">{this.renderItems()}</ul>
+
         {this.state.modal ? (
           <Modal
             activeItem={this.state.activeItem}
