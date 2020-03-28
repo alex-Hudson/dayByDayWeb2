@@ -2,10 +2,10 @@
 # todo/admin.py
     
 from django.contrib import admin
-from .models import Todo # add this
+from .models import Todo
     
-class TodoAdmin(admin.ModelAdmin):  # add this
-  list_display = ('title', 'bible_text', 'question_text', 'prayer_text', 'completed', 'reading_date') # add this
+class TodoAdmin(admin.ModelAdmin):
+  list_display = ('title', 'bible_text', 'question_text', 'prayer_text', 'completed', 'reading_date')
         
 # Register your models here.
-admin.site.register(Todo, TodoAdmin) # add this
+admin.site.register(Todo, TodoAdmin)

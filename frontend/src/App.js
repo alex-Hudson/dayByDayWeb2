@@ -3,7 +3,6 @@
 import React, { Component } from "react";
 import Modal from "./components/Modal";
 import axios from "axios";
-import Menu from "./Menu";
 
 class App extends Component {
   constructor(props) {
@@ -75,7 +74,7 @@ class App extends Component {
   renderItems = () => {
     const items = this.state.todoList;
     return items.map(item => (
-      <div>
+      <div key={item.id}>
         <li
           key={item.id}
           className="list-group-item d-flex justify-content-between align-items-center"
@@ -113,8 +112,7 @@ class App extends Component {
 
     return (
       <main className="content">
-        <Menu></Menu>
-        <h1 className="text-white text-uppercase text-center my-4">
+        <h1 className="text-white text-center my-4">
           {this.formatDate(
             this.state.todoList[0] && this.state.todoList[0].reading_date
           )}
@@ -146,16 +144,13 @@ class App extends Component {
   formatDate(dateString) {
     if (!dateString) return null;
     const d = new Date(dateString);
-    const dtf = new Intl.DateTimeFormat("en", {
-      year: "numeric",
-      month: "short",
-      day: "2-digit"
+    const formattedDateString = d.toLocaleDateString("en-UK", {
+      weekday: "long",
+      month: "long",
+      day: "numeric"
     });
-    const [{ value: mo }, , { value: da }, , { value: ye }] = dtf.formatToParts(
-      d
-    );
-    console.log(`${da}-${mo}-${ye}`);
-    return `${da}-${mo}-${ye}`;
+
+    return formattedDateString;
   }
 }
 export default App;
