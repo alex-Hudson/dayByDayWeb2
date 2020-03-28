@@ -32,18 +32,33 @@ class App extends Component {
   refreshList = () => {
     axios
       .get("http://localhost:8000/api/todos/")
-      .then(res => this.setState({ todoList: res.data }))
-      .then(() => {
+      .then(res => {
+        const toDoList = this.sortDyDate(res.data);
+        this.setState({ todoList: toDoList });
         this.setState({ currentItem: this.getTodaysReading() });
       })
       .catch(err => console.log(err));
   };
 
   /**
+   *
+   */
+  sortDyDate(toDoList) {
+    toDoList.forEach(item => {
+      item.reading_date = new Date(item.reading_date);
+    });
+    const sortedActivities = toDoList.sort(
+      (a, b) => b.reading_date - a.reading_date
+    );
+    return sortedActivities;
+  }
+
+  /**
    * Returns readings recording for today
    */
   getTodaysReading = () => {
     const toDoList = this.state.todoList;
+    console.log(toDoList);
     const isToday = someDate => {
       const today = new Date();
       return (
@@ -76,7 +91,6 @@ class App extends Component {
   renderItems = () => {
     const item = this.state.currentItem;
     if (!item) return null;
-    console.log(item);
     return (
       <div className={"items"} key={item.id}>
         <li
@@ -87,7 +101,7 @@ class App extends Component {
         </li>
         <p className={"todo-item"}>{item.bible_text}</p>
         <p className={"todo-item"}>{item.question_text}</p>
-        <p className={"todo-item"}>{item.prayer_text}</p>
+        <p className={"todo-item prayer-text"}>{item.prayer_text}</p>
       </div>
     );
   };
@@ -112,6 +126,7 @@ class App extends Component {
    * Renders main page
    */
   render() {
+    if (!this.state.currentItem) return null;
     return (
       <main className="content">
         <div className={"page-header"}>
@@ -122,9 +137,7 @@ class App extends Component {
             <img className={"arrow-left"} src={arrowLeft} alt="back"></img>
           </div>
           <div className="text-black my-4 page-title">
-            {this.formatDate(
-              this.state.todoList[0] && this.state.todoList[0].reading_date
-            )}
+            {this.formatDate(this.state.currentItem.reading_date)}
           </div>
           <div className={"forward-button"} onClick={this.forwardClick}>
             <img className={"arrow-right"} src={arrowRight} alt="forward"></img>
@@ -161,12 +174,23 @@ class App extends Component {
   }
 
   forwardClick = e => {
-    console.log(e);
+    const currentIndex = this.state.todoList.findIndex(
+      item => item.id === this.state.currentItem.id
+    );
+    this.setState({
+      currentItem:
+        this.state.todoList[currentIndex - 1] || this.state.currentItem
+    });
   };
 
   backwardClick = e => {
-    console.log(e);
-    console.log(this.state);
+    const currentIndex = this.state.todoList.findIndex(
+      item => item.id === this.state.currentItem.id
+    );
+    this.setState({
+      currentItem:
+        this.state.todoList[currentIndex + 1] || this.state.currentItem
+    });
   };
 }
 export default App;

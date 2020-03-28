@@ -5,9 +5,6 @@ from django.contrib import admin
 from .models import Todo
     
 class TodoAdmin(admin.ModelAdmin):
-  fieldsets = [
-        ('Date information', {'fields': ['reading_date'], 'classes': ['collapse']}),
-    ]
   list_display = ('title', 'bible_text', 'question_text', 'prayer_text', 'completed', 'reading_date')
   list_filter = ['reading_date']
   ordering = ('-reading_date',)
