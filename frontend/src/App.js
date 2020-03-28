@@ -88,21 +88,6 @@ class App extends Component {
           {item.title}
           {this.formatDate(item.reading_date)}
         </span>
-        <span>
-          <button
-            onClick={() => this.editItem(item)}
-            className="btn btn-secondary mr-2"
-          >
-            {" "}
-            Edit{" "}
-          </button>
-          <button
-            onClick={() => this.handleDelete(item)}
-            className="btn btn-danger"
-          >
-            Delete{" "}
-          </button>
-        </span>
       </li>
     ));
   };

@@ -7,7 +7,9 @@ from django.db import models
 # add this
 class Todo(models.Model):
   title = models.CharField(max_length=120)
-  description = models.TextField()
+  bible_text = models.TextField(default="")
+  question_text = models.TextField(default="")
+  prayer_text = models.TextField(default="")
   completed = models.BooleanField(default=False)
   reading_date = models.DateTimeField('reading date')
       
