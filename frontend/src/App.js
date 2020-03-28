@@ -55,8 +55,8 @@ class App extends Component {
     toDoList.forEach(toDoItem => {
       if (isToday(new Date(toDoItem.reading_date))) filteredToDo.push(toDoItem);
     });
-    console.log(filteredToDo);
-    return filteredToDo;
+    console.log(filteredToDo, [filteredToDo[0]]);
+    return [filteredToDo[0]];
   };
 
   /**
@@ -70,36 +70,11 @@ class App extends Component {
   };
 
   /**
-   * Creates button to switch between completed and incomplete items
-   */
-  renderTabList = () => {
-    return (
-      <div className="my-5 tab-list">
-        <span
-          onClick={() => this.displayCompleted(true)}
-          className={this.state.viewCompleted ? "active" : ""}
-        >
-          complete
-        </span>
-        <span
-          onClick={() => this.displayCompleted(false)}
-          className={this.state.viewCompleted ? "" : "active"}
-        >
-          Incomplete
-        </span>
-      </div>
-    );
-  };
-
-  /**
    * Displays list of items
    */
   renderItems = () => {
-    const { viewCompleted } = this.state;
-    const newItems = this.state.todoList.filter(
-      item => item.completed === viewCompleted
-    );
-    return newItems.map(item => (
+    const items = this.state.todoList;
+    return items.map(item => (
       <li
         key={item.id}
         className="list-group-item d-flex justify-content-between align-items-center"
@@ -114,13 +89,6 @@ class App extends Component {
           {this.formatDate(item.reading_date)}
         </span>
         <span>
-          <button
-            onClick={() => this.viewReading(item)}
-            className="btn btn-secondary mr-2"
-          >
-            View This Reading{" "}
-          </button>
-
           <button
             onClick={() => this.editItem(item)}
             className="btn btn-secondary mr-2"
@@ -172,19 +140,6 @@ class App extends Component {
   };
 
   /**
-   * Creates item with null fields
-   */
-  createItem = () => {
-    const item = {
-      title: "",
-      description: "",
-      completed: false,
-      reading_date: ""
-    };
-    this.setState({ activeItem: item, modal: !this.state.modal });
-  };
-
-  /**
    * Edit item
    */
   editItem = item => {
@@ -204,12 +159,6 @@ class App extends Component {
         <div className="row ">
           <div className="col-md-6 col-sm-10 mx-auto p-0">
             <div className="card p-3">
-              <div className="">
-                <button onClick={this.createItem} className="btn btn-primary">
-                  Add task
-                </button>
-              </div>
-              {this.renderTabList()}
               <ul className="list-group list-group-flush">
                 {this.renderItems()}
               </ul>
@@ -243,10 +192,5 @@ class App extends Component {
     );
     return `${da}-${mo}-${ye}`;
   }
-
-  /**
-   * Stub
-   */
-  viewReading() {}
 }
 export default App;
