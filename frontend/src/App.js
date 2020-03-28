@@ -3,7 +3,9 @@
 import React, { Component } from "react";
 import Modal from "./components/Modal";
 import axios from "axios";
-import logo from "./lym-rush-logo-white.png"; // Tell webpack this JS file uses this image
+import logo from "./lym-rush-logo-white.png";
+import arrowRight from "./arrow-right.png";
+import arrowLeft from "./arrow-left.png";
 
 class App extends Component {
   constructor(props) {
@@ -32,7 +34,7 @@ class App extends Component {
       .get("http://localhost:8000/api/todos/")
       .then(res => this.setState({ todoList: res.data }))
       .then(() => {
-        this.setState({ todoList: this.getTodaysReading() });
+        this.setState({ currentItem: this.getTodaysReading() });
       })
       .catch(err => console.log(err));
   };
@@ -50,13 +52,12 @@ class App extends Component {
         someDate.getFullYear() === today.getFullYear()
       );
     };
-    console.log(toDoList);
     const filteredToDo = [];
     toDoList.forEach(toDoItem => {
       if (isToday(new Date(toDoItem.reading_date))) filteredToDo.push(toDoItem);
     });
-    console.log(filteredToDo, [filteredToDo[0]]);
-    return [filteredToDo[0]];
+    this.setState({ currentItem: filteredToDo[0] });
+    return filteredToDo[0];
   };
 
   /**
@@ -73,8 +74,10 @@ class App extends Component {
    * Displays list of items
    */
   renderItems = () => {
-    const items = this.state.todoList;
-    return items.map(item => (
+    const item = this.state.currentItem;
+    if (!item) return null;
+    console.log(item);
+    return (
       <div className={"items"} key={item.id}>
         <li
           key={item.id}
@@ -86,7 +89,7 @@ class App extends Component {
         <p className={"todo-item"}>{item.question_text}</p>
         <p className={"todo-item"}>{item.prayer_text}</p>
       </div>
-    ));
+    );
   };
 
   /**
@@ -109,20 +112,24 @@ class App extends Component {
    * Renders main page
    */
   render() {
-    console.log(this.state.todoList);
-
     return (
       <main className="content">
         <div className={"page-header"}>
           <img className={"logo"} src={logo} alt="lym-logo"></img>
         </div>
-        <h1 className="text-black text-center my-4">
-          {this.formatDate(
-            this.state.todoList[0] && this.state.todoList[0].reading_date
-          )}
-        </h1>
-        <div className={"back-button"}> </div>
-        <div className={"forward-button"}> </div>
+        <div>
+          <div className={"back-button"} onClick={this.backwardClick}>
+            <img className={"arrow-left"} src={arrowLeft} alt="back"></img>
+          </div>
+          <div className="text-black my-4 page-title">
+            {this.formatDate(
+              this.state.todoList[0] && this.state.todoList[0].reading_date
+            )}
+          </div>
+          <div className={"forward-button"} onClick={this.forwardClick}>
+            <img className={"arrow-right"} src={arrowRight} alt="forward"></img>
+          </div>
+        </div>
 
         <ul className="list-group list-group-flush">{this.renderItems()}</ul>
 
@@ -152,5 +159,14 @@ class App extends Component {
 
     return formattedDateString;
   }
+
+  forwardClick = e => {
+    console.log(e);
+  };
+
+  backwardClick = e => {
+    console.log(e);
+    console.log(this.state);
+  };
 }
 export default App;
