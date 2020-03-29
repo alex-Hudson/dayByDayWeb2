@@ -33,7 +33,7 @@ class App extends Component {
     axios
       .get("http://localhost:8000/api/todos/")
       .then(res => {
-        const toDoList = this.sortDyDate(res.data);
+        const toDoList = res.data;
         this.setState({ todoList: toDoList });
         this.setState({ currentItem: this.getTodaysReading() });
       })
@@ -47,9 +47,11 @@ class App extends Component {
     toDoList.forEach(item => {
       item.reading_date = new Date(item.reading_date);
     });
-    const sortedActivities = toDoList.sort(
-      (a, b) => b.reading_date - a.reading_date
-    );
+    const sortedActivities = toDoList.sort((a, b) => {
+      const dateA = new Date(a.reading_date);
+      const dateB = new Date(b.reading_date);
+      return dateA - dateB;
+    });
     return sortedActivities;
   }
 
@@ -58,22 +60,20 @@ class App extends Component {
    */
   getTodaysReading = () => {
     const toDoList = this.state.todoList;
-    console.log(toDoList);
-    const isToday = someDate => {
-      const today = new Date();
-      return (
-        someDate.getDate() === today.getDate() &&
-        someDate.getMonth() === today.getMonth() &&
-        someDate.getFullYear() === today.getFullYear()
-      );
-    };
-    const filteredToDo = [];
-    toDoList.forEach(toDoItem => {
-      if (isToday(new Date(toDoItem.reading_date))) filteredToDo.push(toDoItem);
-    });
-    this.setState({ currentItem: filteredToDo[0] });
-    return filteredToDo[0];
+    const currentItem = this.getClosestReadingToToday([...toDoList]);
+    this.setState({ currentItem });
+    return currentItem;
   };
+
+  getClosestReadingToToday(list) {
+    const today = new Date();
+    list.sort(function(a, b) {
+      var distancea = Math.abs(today - new Date(a.reading_date));
+      var distanceb = Math.abs(today - new Date(b.reading_date));
+      return distancea - distanceb; // sort a before b when the distance is smaller
+    });
+    return list[0];
+  }
 
   /**
    * Displays completed items
@@ -132,7 +132,7 @@ class App extends Component {
         <div className={"page-header"}>
           <img className={"logo"} src={logo} alt="lym-logo"></img>
         </div>
-        <div>
+        <div className={"arrow-container"}>
           <div className={"back-button"} onClick={this.backwardClick}>
             <img className={"arrow-left"} src={arrowLeft} alt="back"></img>
           </div>

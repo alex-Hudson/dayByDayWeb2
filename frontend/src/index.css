@@ -17,12 +17,13 @@ body {
 .page-title {
   font-size: 30px;
   max-width: 50%;
-  position: fixed;
+  display: inline-block;
+  position: relative;
   margin-left: auto;
   margin-right: auto;
   width: 40%;
-  text-align: left;
-  left: 40%;
+  text-align: center;
+  left: 20%;
 }
 .logo {
   height: 2.5em;
@@ -30,24 +31,29 @@ body {
   top: 0.25em;
   right: 0.5em;
 }
+.back-button,
+.forward-button {
+  display: inline-block;
+  top: -5px;
+}
+.back-button {
+  left: 20%;
+  position: relative;
+}
+.forward-button {
+  left: 20%;
+  position: relative;
+}
 .arrow-left,
 .arrow-right {
   height: 30px;
-  position: fixed;
-  top: 5em;
   cursor: pointer;
-}
-.arrow-left {
-  left: 20em;
-}
-.arrow-right {
-  right: 20em;
 }
 .items {
   width: 75%;
   position: fixed;
   left: 50%;
-  transform: translate(-50%, 50%);
+  transform: translate(-50%, 10%);
 }
 .todo-title {
   cursor: pointer;
