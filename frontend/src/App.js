@@ -1,7 +1,6 @@
 // frontend/src/App.js
 
 import React, { Component } from "react";
-import Modal from "./components/Modal";
 import axios from "axios";
 import logo from "./lym-rush-logo-white.png";
 import arrowRight from "./arrow-right.png";
