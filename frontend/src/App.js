@@ -86,6 +86,14 @@ class App extends Component {
   };
 
   /**
+   * Sets state to clicked item in the list
+   * @param {Object} item
+   */
+  handleSidebarItemClick(item) {
+    this.setState({ currentItem: item });
+  }
+
+  /**
    * Displays list of items
    */
   renderItems = () => {
@@ -105,6 +113,26 @@ class App extends Component {
       </div>
     );
   };
+
+  renderSidebar() {
+    const items = this.state.todoList;
+    if (!items) return null;
+    return items.map(item => (
+      <li
+        key={item.id}
+        className="sidebar-item"
+        value={item.id}
+        onClick={() => {
+          this.handleSidebarItemClick(item);
+        }}
+      >
+        <span className={`siderbar-title`}>
+          {item.title}
+          <p>{this.formatDate(item.reading_date)}</p>
+        </span>
+      </li>
+    ));
+  }
 
   /**
    * Handles sumbit when creating new item
@@ -130,20 +158,22 @@ class App extends Component {
     return (
       <main className="content">
         <div className={"page-header"}>
-          <img className={"logo"} src={logo} alt="lym-logo"></img>
+          <img className={"logo"} src={logo} alt="lym-logo" />
         </div>
         <div className={"arrow-container"}>
           <div className={"back-button"} onClick={this.backwardClick}>
-            <img className={"arrow-left"} src={arrowLeft} alt="back"></img>
+            <img className={"arrow-left"} src={arrowLeft} alt="back" />
           </div>
           <div className="text-black my-4 page-title">
             {this.formatDate(this.state.currentItem.reading_date)}
           </div>
           <div className={"forward-button"} onClick={this.forwardClick}>
-            <img className={"arrow-right"} src={arrowRight} alt="forward"></img>
+            <img className={"arrow-right"} src={arrowRight} alt="forward" />
           </div>
         </div>
-
+        <div className={"sidebar-list-container"}>
+          <ul className="sidebar-list">{this.renderSidebar()}</ul>
+        </div>
         <ul className="list-group list-group-flush">{this.renderItems()}</ul>
 
         {this.state.modal ? (

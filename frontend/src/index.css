@@ -48,12 +48,19 @@ body {
 .arrow-right {
   height: 30px;
   cursor: pointer;
+  z-index: 1;
 }
+
+.arrow-container {
+  position: fixed;
+  left: 45%;
+}
+
 .items {
   width: 75%;
   position: fixed;
-  left: 50%;
-  transform: translate(-50%, 10%);
+  left: 60%;
+  transform: translate(-50%, 25%);
 }
 .todo-title {
   cursor: pointer;
@@ -75,4 +82,38 @@ body {
 .tab-list > span.active {
   background-color: #282c34;
   color: #ffffff;
+}
+
+.sidebar-list {
+  width: 20%;
+  border-right: 1px solid #282c34;
+  overflow-y: auto;
+  height: inherit;
+  margin-bottom: 0px;
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+.sidebar-list-container {
+  height: calc(100vh - 48px);
+}
+
+.sidebar-item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  padding-left: 40px;
+}
+
+li.sidebar-item:hover {
+  background-color: #e3edf4;
+}
+
+.list-group {
+  position: absolute;
+  right: 0px;
+  top: 120px;
+}
+
+/*Phone styles*/
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  /* Styles */
 }
