@@ -57,10 +57,9 @@ body {
 }
 
 .items {
-  width: 75%;
-  position: fixed;
-  left: 60%;
-  transform: translate(-50%, 25%);
+  width: 100%;
+  left: 15em;
+  position: absolute;
 }
 .todo-title {
   cursor: pointer;
@@ -85,7 +84,7 @@ body {
 }
 
 .sidebar-list {
-  width: 20%;
+  width: 14em;
   border-right: 1px solid #282c34;
   overflow-y: auto;
   height: inherit;
@@ -96,6 +95,7 @@ body {
 
 .sidebar-list-container {
   height: calc(100vh - 48px);
+  width: 14em;
 }
 
 .sidebar-item {
@@ -109,11 +109,25 @@ li.sidebar-item:hover {
 
 .list-group {
   position: absolute;
-  right: 0px;
-  top: 120px;
+  top: 180px;
+  width: calc(100vw - 16em);
 }
 
 /*Phone styles*/
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-  /* Styles */
+@media only screen and (max-device-width: 600px) {
+  .sidebar-list-container {
+    display: none;
+  }
+  .items {
+    left: 2em;
+  }
+  .list-group {
+    width: calc(100vw - 3em);
+  }
+  .arrow-container {
+    left: 10%;
+  }
+  .logo {
+    right: 0em;
+  }
 }
