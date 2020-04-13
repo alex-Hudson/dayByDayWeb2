@@ -135,22 +135,6 @@ class App extends Component {
   }
 
   /**
-   * Handles sumbit when creating new item
-   */
-  handleSubmit = item => {
-    this.toggle();
-    if (item.id) {
-      axios
-        .put(`http://localhost:8000/api/todos/${item.id}/`, item)
-        .then(res => this.refreshList());
-      return;
-    }
-    axios
-      .post("http://localhost:8000/api/todos/", item)
-      .then(res => this.refreshList());
-  };
-
-  /**
    * Renders main page
    */
   render() {
@@ -175,14 +159,6 @@ class App extends Component {
           <ul className="sidebar-list">{this.renderSidebar()}</ul>
         </div>
         <ul className="list-group list-group-flush">{this.renderItems()}</ul>
-
-        {this.state.modal ? (
-          <Modal
-            activeItem={this.state.activeItem}
-            toggle={this.toggle}
-            onSave={this.handleSubmit}
-          />
-        ) : null}
       </main>
     );
   }
