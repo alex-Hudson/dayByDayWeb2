@@ -120,6 +120,27 @@ li.sidebar-item:hover {
   left: 20px;
 }
 
+.login-form {
+  transform: translate(50%, 50%);
+  width: 50vw;
+}
+
+.login-label {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+
+.login-input {
+  margin-left: 10px;
+}
+
+.login-submit {
+  left: 160px;
+  position: absolute;
+}
+
 /*Phone styles*/
 @media only screen and (max-device-width: 600px) {
   .sidebar-list-container {

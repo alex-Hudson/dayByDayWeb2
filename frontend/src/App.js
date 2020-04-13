@@ -28,7 +28,7 @@ class App extends Component {
 
   componentDidMount() {
     if (this.state.logged_in) {
-      fetch("http://localhost:8000/current_user/", {
+      fetch("http://localhost:3000/current_user/", {
         headers: {
           Authorization: `JWT ${localStorage.getItem("token")}`
         }
@@ -46,7 +46,7 @@ class App extends Component {
    */
   refreshList = () => {
     axios
-      .get("http://localhost:8000/api/todos/", {
+      .get("http://localhost:3000/api/todos/", {
         headers: {
           "Content-type": "application/json",
           Authorization: `JWT ${localStorage.getItem("token")}`
@@ -62,7 +62,7 @@ class App extends Component {
 
   handle_login = (e, data) => {
     e.preventDefault();
-    fetch("http://localhost:8000/token-auth/", {
+    fetch("http://localhost:3000/token-auth/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -191,9 +191,6 @@ class App extends Component {
 
     return (
       <main className="content">
-        <div className={"page-header"}>
-          <img className={"logo"} src={logo} alt="lym-logo" />
-        </div>
         <div className={"arrow-container"}>
           <div className={"back-button"} onClick={this.backwardClick}>
             <img className={"arrow-left"} src={arrowLeft} alt="back" />
@@ -217,23 +214,22 @@ class App extends Component {
    * Renders main page
    */
   render() {
-    let form;
-    switch (this.state.displayed_form) {
-      case "login":
-        form = <LoginForm handle_login={this.handle_login} />;
-        break;
-      default:
-        form = null;
-    }
+    const form = this.state.logged_in ? null : (
+      <LoginForm handle_login={this.handle_login} />
+    );
+
     return (
       <div className="App">
+        <div className={"page-header"}>
+          <img className={"logo"} src={logo} alt="lym-logo" />
+        </div>
         <Nav
           logged_in={this.state.logged_in}
           display_form={this.display_form}
           handle_logout={this.handle_logout}
         />
         {form}
-        {this.state.logged_in ? this.renderApp() : "Please Log In"}
+        {this.state.logged_in ? this.renderApp() : null}
       </div>
     );
   }
