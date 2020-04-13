@@ -113,6 +113,13 @@ li.sidebar-item:hover {
   width: calc(100vw - 16em);
 }
 
+.logout-container {
+  position: absolute;
+  color: white;
+  top: 10px;
+  left: 20px;
+}
+
 /*Phone styles*/
 @media only screen and (max-device-width: 600px) {
   .sidebar-list-container {

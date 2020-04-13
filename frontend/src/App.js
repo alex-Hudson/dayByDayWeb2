@@ -5,6 +5,8 @@ import axios from "axios";
 import logo from "./lym-rush-logo-white.png";
 import arrowRight from "./arrow-right.png";
 import arrowLeft from "./arrow-left.png";
+import Nav from "./components/Nav";
+import LoginForm from "./components/LoginForm";
 
 class App extends Component {
   constructor(props) {
@@ -17,12 +19,26 @@ class App extends Component {
         completed: false,
         reading_date: ""
       },
-      todoList: []
+      todoList: [],
+      displayed_form: "",
+      logged_in: localStorage.getItem("token") ? true : false,
+      username: ""
     };
   }
 
   componentDidMount() {
-    this.refreshList();
+    if (this.state.logged_in) {
+      fetch("http://localhost:8000/current_user/", {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem("token")}`
+        }
+      })
+        .then(res => res.json())
+        .then(json => {
+          this.setState({ username: json.username });
+          this.refreshList();
+        });
+    }
   }
 
   /**
@@ -30,13 +46,50 @@ class App extends Component {
    */
   refreshList = () => {
     axios
-      .get("http://localhost:8000/api/todos/")
+      .get("http://localhost:8000/api/todos/", {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `JWT ${localStorage.getItem("token")}`
+        }
+      })
       .then(res => {
         const toDoList = res.data;
         this.setState({ todoList: toDoList });
         this.setState({ currentItem: this.getTodaysReading() });
       })
       .catch(err => console.log(err));
+  };
+
+  handle_login = (e, data) => {
+    e.preventDefault();
+    fetch("http://localhost:8000/token-auth/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    })
+      .then(res => res.json())
+      .then(json => {
+        localStorage.setItem("token", json.token);
+        this.setState({
+          logged_in: true,
+          displayed_form: "",
+          username: json.user.username
+        });
+        this.refreshList();
+      });
+  };
+
+  handle_logout = () => {
+    localStorage.removeItem("token");
+    this.setState({ logged_in: false, username: "" });
+  };
+
+  display_form = form => {
+    this.setState({
+      displayed_form: form
+    });
   };
 
   /**
@@ -133,11 +186,9 @@ class App extends Component {
     ));
   }
 
-  /**
-   * Renders main page
-   */
-  render() {
+  renderApp() {
     if (!this.state.currentItem) return null;
+
     return (
       <main className="content">
         <div className={"page-header"}>
@@ -159,6 +210,31 @@ class App extends Component {
         </div>
         <ul className="list-group list-group-flush">{this.renderItems()}</ul>
       </main>
+    );
+  }
+
+  /**
+   * Renders main page
+   */
+  render() {
+    let form;
+    switch (this.state.displayed_form) {
+      case "login":
+        form = <LoginForm handle_login={this.handle_login} />;
+        break;
+      default:
+        form = null;
+    }
+    return (
+      <div className="App">
+        <Nav
+          logged_in={this.state.logged_in}
+          display_form={this.display_form}
+          handle_logout={this.handle_logout}
+        />
+        {form}
+        {this.state.logged_in ? this.renderApp() : "Please Log In"}
+      </div>
     );
   }
 
