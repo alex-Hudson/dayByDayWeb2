@@ -61,6 +61,7 @@ class App extends Component {
   };
 
   handle_login = (e, data) => {
+    this.setState({ loginError: false });
     e.preventDefault();
     fetch("http://localhost:3000/token-auth/", {
       method: "POST",
@@ -78,6 +79,16 @@ class App extends Component {
           username: json.user.username
         });
         this.refreshList();
+      })
+      .catch(error => {
+        this.setState({
+          loginError: true,
+          logged_in: false,
+          username: null,
+          displayed_form: "login",
+          currentItem: null
+        });
+        localStorage.removeItem("token");
       });
   };
 
@@ -91,6 +102,10 @@ class App extends Component {
       displayed_form: form
     });
   };
+
+  renderLoginError() {
+    return <div className="login-failed">Incorrect username or password</div>;
+  }
 
   /**
    *
@@ -217,6 +232,9 @@ class App extends Component {
     const form = this.state.logged_in ? null : (
       <LoginForm handle_login={this.handle_login} />
     );
+    const loginErrorMsg = this.state.loginError
+      ? this.renderLoginError()
+      : null;
 
     return (
       <div className="App">
@@ -229,6 +247,7 @@ class App extends Component {
           handle_logout={this.handle_logout}
         />
         {form}
+        {loginErrorMsg}
         {this.state.logged_in ? this.renderApp() : null}
       </div>
     );

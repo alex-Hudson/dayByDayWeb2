@@ -141,6 +141,12 @@ li.sidebar-item:hover {
   position: absolute;
 }
 
+.login-failed {
+  transform: translate(40%, 0%);
+  position: relative;
+  top: 20px;
+}
+
 /*Phone styles*/
 @media only screen and (max-device-width: 600px) {
   .sidebar-list-container {
