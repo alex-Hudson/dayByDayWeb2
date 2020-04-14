@@ -58,7 +58,17 @@ class App extends Component {
         this.setState({ readingList: readingList });
         this.setState({ currentItem: this.getTodaysReading() });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        this.setState({
+          loginError: true,
+          logged_in: false,
+          username: null,
+          displayed_form: "login",
+          currentItem: null,
+        });
+        localStorage.removeItem("token");
+      });
   };
 
   handle_login = (e, data) => {
