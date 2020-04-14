@@ -142,9 +142,14 @@ li.sidebar-item:hover {
 }
 
 .login-failed {
-  transform: translate(40%, 0%);
+  transform: translate(150%, 0%);
   position: relative;
   top: 20px;
+  width: max-content;
+  background-color: rgba(255, 77, 79, 0.4);
+  border: 2px solid rgba(255, 77, 79, 0.8);
+  border-radius: 5px;
+  padding: 2px;
 }
 
 /*Phone styles*/

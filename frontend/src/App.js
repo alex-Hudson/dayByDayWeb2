@@ -24,11 +24,12 @@ class App extends Component {
       logged_in: localStorage.getItem("token") ? true : false,
       username: ""
     };
+    this.baseUrl = window.location.protocol + "//" + window.location.host;
   }
 
   componentDidMount() {
     if (this.state.logged_in) {
-      fetch("http://localhost:3000/current_user/", {
+      fetch(`${this.baseUrl}/current_user/`, {
         headers: {
           Authorization: `JWT ${localStorage.getItem("token")}`
         }
@@ -46,7 +47,7 @@ class App extends Component {
    */
   refreshList = () => {
     axios
-      .get("http://localhost:3000/api/todos/", {
+      .get(`${this.baseUrl}/api/todos/`, {
         headers: {
           "Content-type": "application/json",
           Authorization: `JWT ${localStorage.getItem("token")}`
@@ -63,7 +64,7 @@ class App extends Component {
   handle_login = (e, data) => {
     this.setState({ loginError: false });
     e.preventDefault();
-    fetch("http://localhost:3000/token-auth/", {
+    fetch(`${this.baseUrl}/token-auth/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
