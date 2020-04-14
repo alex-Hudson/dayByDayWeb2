@@ -1,14 +1,14 @@
 
-# todo/serializers.py
+# DayByDay/serializers.py
 
 from rest_framework import serializers
-from .models import Todo
+from .models import Reading
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
       
-class TodoSerializer(serializers.ModelSerializer):
+class DayByDaySerializer(serializers.ModelSerializer):
   class Meta:
-    model = Todo
+    model = Reading
     fields = ('id', 'title', 'bible_text', 'question_text', 'prayer_text', 'completed', 'reading_date')
 
 

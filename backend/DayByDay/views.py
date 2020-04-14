@@ -1,10 +1,10 @@
 
-# todo/views.py
+# DayByDay/views.py
 
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import TodoSerializer
-from .models import Todo
+from .serializers import DayByDaySerializer
+from .models import Reading
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from rest_framework import permissions, status
@@ -14,11 +14,11 @@ from rest_framework.views import APIView
 from .serializers import UserSerializer, UserSerializerWithToken
 
         
-class TodoView(viewsets.ModelViewSet):       
-  serializer_class = TodoSerializer      
+class DayByDayView(viewsets.ModelViewSet):       
+  serializer_class = DayByDaySerializer      
 
   def get_queryset(self):
-    return Todo.objects.all().order_by('-reading_date')
+    return Reading.objects.all().order_by('-reading_date')
 
 
 @api_view(['GET'])

@@ -4,11 +4,11 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers      
-from todo import views
+from DayByDay import views
 from rest_framework_jwt.views import obtain_jwt_token
         
 router = routers.DefaultRouter()    
-router.register(r'todos', views.TodoView, 'todo')
+router.register(r'readings', views.DayByDayView, 'readings')
         
 urlpatterns = [
     path('admin/', admin.site.urls),           

@@ -1,11 +1,11 @@
 
-# todo/models.py
+# DayByDay/models.py
       
 from django.db import models
 # Create your models here.
 
 # add this
-class Todo(models.Model):
+class Reading(models.Model):
   title = models.CharField(max_length=120)
   bible_text = models.TextField(default="")
   question_text = models.TextField(default="")

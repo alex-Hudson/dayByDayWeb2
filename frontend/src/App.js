@@ -19,7 +19,7 @@ class App extends Component {
         completed: false,
         reading_date: ""
       },
-      todoList: [],
+      readingList: [],
       displayed_form: "",
       logged_in: localStorage.getItem("token") ? true : false,
       username: ""
@@ -43,19 +43,19 @@ class App extends Component {
   }
 
   /**
-   * Gets all ToDo Items in database
+   * Gets all reading Items in database
    */
   refreshList = () => {
     axios
-      .get(`${this.baseUrl}/api/todos/`, {
+      .get(`${this.baseUrl}/api/readings/`, {
         headers: {
           "Content-type": "application/json",
           Authorization: `JWT ${localStorage.getItem("token")}`
         }
       })
       .then(res => {
-        const toDoList = res.data;
-        this.setState({ todoList: toDoList });
+        const readingList = res.data;
+        this.setState({ readingList: readingList });
         this.setState({ currentItem: this.getTodaysReading() });
       })
       .catch(err => console.log(err));
@@ -111,11 +111,11 @@ class App extends Component {
   /**
    *
    */
-  sortDyDate(toDoList) {
-    toDoList.forEach(item => {
+  sortDyDate(readingList) {
+    readingList.forEach(item => {
       item.reading_date = new Date(item.reading_date);
     });
-    const sortedActivities = toDoList.sort((a, b) => {
+    const sortedActivities = readingList.sort((a, b) => {
       const dateA = new Date(a.reading_date);
       const dateB = new Date(b.reading_date);
       return dateA - dateB;
@@ -127,8 +127,8 @@ class App extends Component {
    * Returns readings recording for today
    */
   getTodaysReading = () => {
-    const toDoList = this.state.todoList;
-    const currentItem = this.getClosestReadingToToday([...toDoList]);
+    const readingList = this.state.readingList;
+    const currentItem = this.getClosestReadingToToday([...readingList]);
     this.setState({ currentItem });
     return currentItem;
   };
@@ -173,17 +173,17 @@ class App extends Component {
           key={item.id}
           className="d-flex justify-content-between align-items-center"
         >
-          <span className={`todo-title mr-2`}>{item.title}</span>
+          <span className={`reading-title mr-2`}>{item.title}</span>
         </li>
-        <p className={"todo-item"}>{item.bible_text}</p>
-        <p className={"todo-item"}>{item.question_text}</p>
-        <p className={"todo-item prayer-text"}>{item.prayer_text}</p>
+        <p className={"reading-item"}>{item.bible_text}</p>
+        <p className={"reading-item"}>{item.question_text}</p>
+        <p className={"reading-item prayer-text"}>{item.prayer_text}</p>
       </div>
     );
   };
 
   renderSidebar() {
-    const items = this.state.todoList;
+    const items = this.state.readingList;
     if (!items) return null;
     return items.map(item => (
       <li
@@ -271,22 +271,22 @@ class App extends Component {
   }
 
   forwardClick = e => {
-    const currentIndex = this.state.todoList.findIndex(
+    const currentIndex = this.state.readingList.findIndex(
       item => item.id === this.state.currentItem.id
     );
     this.setState({
       currentItem:
-        this.state.todoList[currentIndex - 1] || this.state.currentItem
+        this.state.readingList[currentIndex - 1] || this.state.currentItem
     });
   };
 
   backwardClick = e => {
-    const currentIndex = this.state.todoList.findIndex(
+    const currentIndex = this.state.readingList.findIndex(
       item => item.id === this.state.currentItem.id
     );
     this.setState({
       currentItem:
-        this.state.todoList[currentIndex + 1] || this.state.currentItem
+        this.state.readingList[currentIndex + 1] || this.state.currentItem
     });
   };
 }
