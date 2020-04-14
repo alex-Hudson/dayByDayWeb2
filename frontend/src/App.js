@@ -17,12 +17,12 @@ class App extends Component {
         title: "",
         description: "",
         completed: false,
-        reading_date: ""
+        reading_date: "",
       },
       readingList: [],
       displayed_form: "",
       logged_in: localStorage.getItem("token") ? true : false,
-      username: ""
+      username: "",
     };
     this.baseUrl = window.location.protocol + "//" + window.location.host;
   }
@@ -31,11 +31,11 @@ class App extends Component {
     if (this.state.logged_in) {
       fetch(`${this.baseUrl}/current_user/`, {
         headers: {
-          Authorization: `JWT ${localStorage.getItem("token")}`
-        }
+          Authorization: `JWT ${localStorage.getItem("token")}`,
+        },
       })
-        .then(res => res.json())
-        .then(json => {
+        .then((res) => res.json())
+        .then((json) => {
           this.setState({ username: json.username });
           this.refreshList();
         });
@@ -50,15 +50,15 @@ class App extends Component {
       .get(`${this.baseUrl}/api/readings/`, {
         headers: {
           "Content-type": "application/json",
-          Authorization: `JWT ${localStorage.getItem("token")}`
-        }
+          Authorization: `JWT ${localStorage.getItem("token")}`,
+        },
       })
-      .then(res => {
+      .then((res) => {
         const readingList = res.data;
         this.setState({ readingList: readingList });
         this.setState({ currentItem: this.getTodaysReading() });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
 
   handle_login = (e, data) => {
@@ -67,27 +67,27 @@ class App extends Component {
     fetch(`${this.baseUrl}/token-auth/`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
-      .then(res => res.json())
-      .then(json => {
+      .then((res) => res.json())
+      .then((json) => {
         localStorage.setItem("token", json.token);
         this.setState({
           logged_in: true,
           displayed_form: "",
-          username: json.user.username
+          username: json.user.username,
         });
         this.refreshList();
       })
-      .catch(error => {
+      .catch((error) => {
         this.setState({
           loginError: true,
           logged_in: false,
           username: null,
           displayed_form: "login",
-          currentItem: null
+          currentItem: null,
         });
         localStorage.removeItem("token");
       });
@@ -98,9 +98,9 @@ class App extends Component {
     this.setState({ logged_in: false, username: "" });
   };
 
-  display_form = form => {
+  display_form = (form) => {
     this.setState({
-      displayed_form: form
+      displayed_form: form,
     });
   };
 
@@ -112,7 +112,7 @@ class App extends Component {
    *
    */
   sortDyDate(readingList) {
-    readingList.forEach(item => {
+    readingList.forEach((item) => {
       item.reading_date = new Date(item.reading_date);
     });
     const sortedActivities = readingList.sort((a, b) => {
@@ -146,7 +146,7 @@ class App extends Component {
   /**
    * Displays completed items
    */
-  displayCompleted = status => {
+  displayCompleted = (status) => {
     if (status) {
       return this.setState({ viewCompleted: true });
     }
@@ -185,7 +185,7 @@ class App extends Component {
   renderSidebar() {
     const items = this.state.readingList;
     if (!items) return null;
-    return items.map(item => (
+    return items.map((item) => (
       <li
         key={item.id}
         className="sidebar-item"
@@ -264,29 +264,29 @@ class App extends Component {
     const formattedDateString = d.toLocaleDateString("en-UK", {
       weekday: "long",
       month: "long",
-      day: "numeric"
+      day: "numeric",
     });
 
     return formattedDateString;
   }
 
-  forwardClick = e => {
+  forwardClick = (e) => {
     const currentIndex = this.state.readingList.findIndex(
-      item => item.id === this.state.currentItem.id
+      (item) => item.id === this.state.currentItem.id
     );
     this.setState({
       currentItem:
-        this.state.readingList[currentIndex - 1] || this.state.currentItem
+        this.state.readingList[currentIndex - 1] || this.state.currentItem,
     });
   };
 
-  backwardClick = e => {
+  backwardClick = (e) => {
     const currentIndex = this.state.readingList.findIndex(
-      item => item.id === this.state.currentItem.id
+      (item) => item.id === this.state.currentItem.id
     );
     this.setState({
       currentItem:
-        this.state.readingList[currentIndex + 1] || this.state.currentItem
+        this.state.readingList[currentIndex + 1] || this.state.currentItem,
     });
   };
 }
