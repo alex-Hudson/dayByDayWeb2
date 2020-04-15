@@ -71,13 +71,31 @@ class App extends Component {
       });
   };
 
+  getCookie(name) {
+    if (!document.cookie) {
+      return null;
+    }
+
+    const xsrfCookies = document.cookie
+      .split(";")
+      .map((c) => c.trim())
+      .filter((c) => c.startsWith(name + "="));
+
+    if (xsrfCookies.length === 0) {
+      return null;
+    }
+    return decodeURIComponent(xsrfCookies[0].split("=")[1]);
+  }
+
   handle_login = (e, data) => {
+    const csrfCookie = this.getCookie("csrftoken");
     this.setState({ loginError: false });
     e.preventDefault();
     fetch(`${this.baseUrl}/token-auth/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "X-CSRFTOKEN": csrfCookie,
       },
       body: JSON.stringify(data),
     })
