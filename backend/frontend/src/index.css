@@ -25,7 +25,7 @@ body {
 }
 .logo {
   height: 2.5em;
-  position: fixed;
+  position: absolute;
   top: 0.25em;
   right: 0.5em;
 }
@@ -48,7 +48,7 @@ body {
 }
 
 .arrow-container {
-  position: fixed;
+  position: absolute;
   left: 45vw;
 }
 
