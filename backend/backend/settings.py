@@ -98,13 +98,19 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'DayByDayWebsite',
+        'HOST': "/cloudsql/daybyday-274307:europe-west2:day-by-day-web",
+        'NAME': 'day-by-day',
         'USER': 'postgres',
         'PASSWORD': 'Googleyahoo1',
-        'HOST': 'localhost',
-        'PORT': '',
+        'PORT': '5432',
     }
 }
+
+if os.getenv('GAE_INSTANCE'):
+    pass
+else:
+    DATABASES['default']['HOST'] = 'localhost'
+    DATABASES['default']['NAME'] = 'DayByDayWebsite'
 
 
 # Password validation
