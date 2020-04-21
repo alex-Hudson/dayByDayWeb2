@@ -28,6 +28,7 @@ body {
   position: absolute;
   top: 0.25em;
   right: 0.5em;
+  cursor: pointer;
 }
 .back-button,
 .forward-button {
@@ -97,6 +98,7 @@ body {
 .sidebar-item {
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
   padding-left: 40px;
+  cursor: pointer;
 }
 
 li.sidebar-item:hover {
@@ -114,6 +116,7 @@ li.sidebar-item:hover {
   color: white;
   top: 10px;
   left: 20px;
+  cursor: pointer;
 }
 
 .login-form {
@@ -158,11 +161,15 @@ li.sidebar-item:hover {
   }
   .list-group {
     width: calc(100vw - 3em);
+    top: 140px;
   }
   .arrow-container {
-    left: 8%;
+    left: 10%;
   }
   .logo {
     right: 0em;
+  }
+  .login-failed {
+    left: 18vw;
   }
 }

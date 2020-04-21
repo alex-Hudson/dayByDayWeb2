@@ -254,6 +254,10 @@ class App extends Component {
     );
   }
 
+  handleLogoClick() {
+    window.location.assign("https://www.lymingtonrushmore.org/");
+  }
+
   /**
    * Renders main page
    */
@@ -267,7 +271,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        <div className={"page-header"}>
+        <div className={"page-header"} onClick={this.handleLogoClick}>
           <img className={"logo"} src={logo} alt="lym-logo" />
         </div>
         <Nav
@@ -291,7 +295,7 @@ class App extends Component {
     const d = new Date(dateString);
     const formattedDateString = d.toLocaleDateString("en-UK", {
       weekday: "long",
-      month: "long",
+      month: window.innerWidth > 600 ? "long" : "short",
       day: "numeric",
     });
 
