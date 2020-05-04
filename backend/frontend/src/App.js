@@ -271,8 +271,13 @@ class App extends Component {
 
     return (
       <div className="App">
-        <div className={"page-header"} onClick={this.handleLogoClick}>
-          <img className={"logo"} src={logo} alt="lym-logo" />
+        <div className={"page-header"}>
+          <img
+            className={"logo"}
+            src={logo}
+            alt="lym-logo"
+            onClick={this.handleLogoClick}
+          />
         </div>
         <Nav
           logged_in={this.state.logged_in}

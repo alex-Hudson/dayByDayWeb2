@@ -157,14 +157,16 @@ li.sidebar-item:hover {
     display: none;
   }
   .items {
-    left: 2em;
+    left: 6vw;
   }
   .list-group {
     width: calc(100vw - 3em);
     top: 140px;
   }
   .arrow-container {
-    left: 10%;
+    left: 5vw;
+    width: 90%;
+    text-align: center;
   }
   .logo {
     right: 0em;
