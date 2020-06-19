@@ -64,6 +64,9 @@ body {
 }
 .reading-item {
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  padding-bottom: 8px;
+  padding-top: 8px;
+  margin-bottom: 0;
 }
 .prayer-text {
   font-style: italic;
