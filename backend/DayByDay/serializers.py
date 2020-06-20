@@ -2,7 +2,7 @@
 # DayByDay/serializers.py
 
 from rest_framework import serializers
-from .models import Reading
+from .models import Reading, NewsItem
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
       
@@ -10,6 +10,11 @@ class DayByDaySerializer(serializers.ModelSerializer):
   class Meta:
     model = Reading
     fields = ('id', 'title', 'bible_text', 'question_text', 'prayer_text', 'completed', 'reading_date')
+
+class NewsItemSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = NewsItem
+    fields = ('news_item_text', 'news_date')
 
 
 class UserSerializer(serializers.ModelSerializer):

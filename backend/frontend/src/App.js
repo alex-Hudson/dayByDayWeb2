@@ -38,6 +38,7 @@ class App extends Component {
         .then((json) => {
           this.setState({ username: json.username });
           this.refreshList();
+          this.getNewsItem();
         });
     }
   }
@@ -57,6 +58,31 @@ class App extends Component {
         const readingList = res.data;
         this.setState({ readingList: readingList });
         this.setState({ currentItem: this.getTodaysReading() });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({
+          loginError: true,
+          logged_in: false,
+          username: null,
+          displayed_form: "login",
+          currentItem: null,
+        });
+        localStorage.removeItem("token");
+      });
+  };
+
+  getNewsItem = () => {
+    axios
+      .get(`${this.baseUrl}/api/news_items/`, {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `JWT ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        const news_items = res.data;
+        this.setState({ news_items });
       })
       .catch((err) => {
         console.log(err);
@@ -108,6 +134,7 @@ class App extends Component {
           username: json.user.username,
         });
         this.refreshList();
+        this.getNewsItem();
       })
       .catch((error) => {
         this.setState({
@@ -169,6 +196,22 @@ class App extends Component {
       return distancea - distanceb; // sort a before b when the distance is smaller
     });
     return list[0];
+  }
+
+  getTodaysNewsItem = () => {
+    const newsItems = this.state.news_items;
+    if (!newsItems) return null;
+    return this.getClosestNewsItemToToday(newsItems);
+  };
+
+  getClosestNewsItemToToday(list) {
+    const today = new Date();
+    list.sort(function(a, b) {
+      var distancea = Math.abs(today - new Date(a.news_date));
+      var distanceb = Math.abs(today - new Date(b.news_date));
+      return distancea - distanceb; // sort a before b when the distance is smaller
+    });
+    return list[0].news_item_text;
   }
 
   /**
@@ -250,6 +293,7 @@ class App extends Component {
           <ul className="sidebar-list">{this.renderSidebar()}</ul>
         </div>
         <ul className="list-group list-group-flush">{this.renderItems()}</ul>
+        <div className={"news-bar"}>{this.getTodaysNewsItem()}</div>
       </main>
     );
   }

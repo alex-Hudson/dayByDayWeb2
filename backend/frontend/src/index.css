@@ -154,6 +154,15 @@ li.sidebar-item:hover {
   padding: 2px;
 }
 
+.news-bar {
+  position: fixed;
+  bottom: 0;
+  width: calc(100vw - 14em);
+  background: lightblue;
+  left: 14em;
+  text-align: center;
+}
+
 /*Phone styles*/
 @media only screen and (max-device-width: 600px) {
   .sidebar-list-container {
@@ -161,6 +170,7 @@ li.sidebar-item:hover {
   }
   .items {
     left: 6vw;
+    margin-bottom: 70px;
   }
   .list-group {
     width: calc(100vw - 3em);
@@ -176,5 +186,9 @@ li.sidebar-item:hover {
   }
   .login-failed {
     left: 18vw;
+  }
+  .news-bar {
+    width: 100vw;
+    left: 0;
   }
 }

@@ -98,8 +98,8 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': "/cloudsql/daybyday-274307:europe-west2:day-by-day-web",
-        'NAME': 'day-by-day',
+        'HOST': "/cloudsql/daybyday-274307:europe-west2:postgres",
+        'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'Googleyahoo1',
         'PORT': '5432',

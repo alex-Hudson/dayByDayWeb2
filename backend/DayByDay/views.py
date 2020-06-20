@@ -3,8 +3,8 @@
 
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import DayByDaySerializer
-from .models import Reading
+from .serializers import DayByDaySerializer, NewsItemSerializer
+from .models import Reading, NewsItem
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from rest_framework import permissions, status
@@ -25,6 +25,13 @@ class DayByDayView(viewsets.ModelViewSet):
 
   def get_queryset(self):
     return Reading.objects.all().order_by('-reading_date')
+
+
+class NewsView(viewsets.ModelViewSet):       
+  serializer_class = NewsItemSerializer      
+
+  def get_queryset(self):
+    return NewsItem.objects.all().order_by('-news_date')
 
 
 @api_view(['GET'])

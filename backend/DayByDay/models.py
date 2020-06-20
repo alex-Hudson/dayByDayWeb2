@@ -23,3 +23,8 @@ class Reading(models.Model):
   is_todays_reading.admin_order_field = 'reading_date'
   is_todays_reading.boolean = True
   is_todays_reading.short_description = 'Todays reading?'
+
+class NewsItem(models.Model):
+  news_item_text = models.CharField(max_length=300)
+  news_date = models.DateTimeField('reading date')
+
