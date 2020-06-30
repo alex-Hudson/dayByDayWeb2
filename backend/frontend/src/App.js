@@ -11,6 +11,7 @@ import LoginForm from "./components/LoginForm";
 class App extends Component {
   constructor(props) {
     super(props);
+    this.requiresLogin = false;
     this.state = {
       viewCompleted: false,
       activeItem: {
@@ -21,7 +22,8 @@ class App extends Component {
       },
       readingList: [],
       displayed_form: "",
-      logged_in: localStorage.getItem("token") ? true : false,
+      logged_in:
+        localStorage.getItem("token") || this.requiresLogin ? true : false,
       username: "",
     };
     this.baseUrl = window.location.protocol + "//" + window.location.host;
@@ -29,17 +31,22 @@ class App extends Component {
 
   componentDidMount() {
     if (this.state.logged_in) {
-      fetch(`${this.baseUrl}/current_user/`, {
-        headers: {
-          Authorization: `JWT ${localStorage.getItem("token")}`,
-        },
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          this.setState({ username: json.username });
-          this.refreshList();
-          this.getNewsItem();
-        });
+      if (this.requiresLogin) {
+        fetch(`${this.baseUrl}/current_user/`, {
+          headers: {
+            Authorization: `JWT ${localStorage.getItem("token")}`,
+          },
+        })
+          .then((res) => res.json())
+          .then((json) => {
+            this.setState({ username: json.username });
+            this.refreshList();
+            this.getNewsItem();
+          });
+      } else {
+        this.refreshList();
+        this.getNewsItem();
+      }
     }
   }
 
@@ -63,7 +70,7 @@ class App extends Component {
         console.log(err);
         this.setState({
           loginError: true,
-          logged_in: false,
+          logged_in: this.requiresLogin || false,
           username: null,
           displayed_form: "login",
           currentItem: null,
@@ -88,7 +95,7 @@ class App extends Component {
         console.log(err);
         this.setState({
           loginError: true,
-          logged_in: false,
+          logged_in: this.requiresLogin || false,
           username: null,
           displayed_form: "login",
           currentItem: null,
@@ -139,7 +146,7 @@ class App extends Component {
       .catch((error) => {
         this.setState({
           loginError: true,
-          logged_in: false,
+          logged_in: this.requiresLogin || true,
           username: null,
           displayed_form: "login",
           currentItem: null,
@@ -150,7 +157,7 @@ class App extends Component {
 
   handle_logout = () => {
     localStorage.removeItem("token");
-    this.setState({ logged_in: false, username: "" });
+    this.setState({ logged_in: this.requiresLogin || false, username: "" });
   };
 
   display_form = (form) => {
@@ -211,6 +218,7 @@ class App extends Component {
       var distanceb = Math.abs(today - new Date(b.news_date));
       return distancea - distanceb; // sort a before b when the distance is smaller
     });
+    if (!list[0]) return null;
     return list[0].news_item_text;
   }
 
@@ -323,11 +331,14 @@ class App extends Component {
             onClick={this.handleLogoClick}
           />
         </div>
-        <Nav
-          logged_in={this.state.logged_in}
-          display_form={this.display_form}
-          handle_logout={this.handle_logout}
-        />
+        {this.requiresLogin ? (
+          <Nav
+            logged_in={this.state.logged_in}
+            display_form={this.display_form}
+            handle_logout={this.handle_logout}
+          />
+        ) : null}
+
         {form}
         {loginErrorMsg}
         {this.state.logged_in ? this.renderApp() : null}
