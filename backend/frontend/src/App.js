@@ -33,7 +33,7 @@ class App extends Component {
       readingList: [],
       displayed_form: "",
       logged_in:
-        localStorage.getItem("token") || this.requiresLogin ? true : false,
+        localStorage.getItem("token") || !this.requiresLogin ? true : false,
       username: "",
     };
     this.baseUrl = window.location.protocol + "//" + window.location.host;
