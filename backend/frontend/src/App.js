@@ -7,11 +7,21 @@ import arrowRight from "./arrow-right.png";
 import arrowLeft from "./arrow-left.png";
 import Nav from "./components/Nav";
 import LoginForm from "./components/LoginForm";
+import {
+  LeftCircleOutlined,
+  RightCircleOutlined,
+  FacebookOutlined,
+  InstagramOutlined,
+  ReadOutlined,
+  BulbOutlined,
+  MessageOutlined,
+} from "@ant-design/icons";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.requiresLogin = false;
+    this.isMobile = window.innerWidth > 600 ? false : true;
     this.state = {
       viewCompleted: false,
       activeItem: {
@@ -248,18 +258,57 @@ class App extends Component {
     if (!item) return null;
     return (
       <div className={"items"} key={item.id}>
-        <li
-          key={item.id}
-          className="d-flex justify-content-between align-items-center"
-        >
-          <span className={`reading-title mr-2`}>{item.title}</span>
-        </li>
+        <div key={item.id} className="reading-title">
+          {item.title}
+        </div>
+        {this.createCircleIcon(
+          <ReadOutlined
+            style={{ fontSize: "30px" }}
+            className={"circle-icon-logo"}
+          />,
+          "Read"
+        )}
         <p className={"reading-item"}>{item.bible_text}</p>
+        {this.createCircleIcon(
+          <BulbOutlined
+            style={{ fontSize: "30px" }}
+            className={"circle-icon-logo"}
+          />,
+          "Engage"
+        )}
         <p className={"reading-item"}>{item.question_text}</p>
+        {this.createCircleIcon(
+          <MessageOutlined
+            style={{ fontSize: "30px" }}
+            className={"circle-icon-logo"}
+          />,
+          "Pray"
+        )}
         <p className={"reading-item prayer-text"}>{item.prayer_text}</p>
+        {this.isMobile ? (
+          <div className={"page-footer"}>
+            <InstagramOutlined onClick={this.handleIGClick} />
+            <FacebookOutlined onClick={this.handleFBClick} />
+            <img
+              className={"logo"}
+              src={logo}
+              alt="lym-logo"
+              onClick={this.handleLogoClick}
+            />
+          </div>
+        ) : null}
       </div>
     );
   };
+
+  createCircleIcon(icon, text) {
+    return (
+      <div className={"header-dot"}>
+        {icon}
+        <div className={"header-text"}>{text}</div>
+      </div>
+    );
+  }
 
   renderSidebar() {
     const items = this.state.readingList;
@@ -285,16 +334,16 @@ class App extends Component {
     if (!this.state.currentItem) return null;
 
     return (
-      <main className="content">
+      <div style={{ minHeight: "100vh", position: "relative" }}>
         <div className={"arrow-container"}>
           <div className={"back-button"} onClick={this.backwardClick}>
-            <img className={"arrow-left"} src={arrowLeft} alt="back" />
+            <LeftCircleOutlined style={{ fontSize: "25px" }} />
           </div>
-          <div className="text-black my-4 page-title">
+          <div className="page-title">
             {this.formatDate(this.state.currentItem.reading_date)}
           </div>
           <div className={"forward-button"} onClick={this.forwardClick}>
-            <img className={"arrow-right"} src={arrowRight} alt="forward" />
+            <RightCircleOutlined style={{ fontSize: "25px" }} />
           </div>
         </div>
         <div className={"sidebar-list-container"}>
@@ -302,12 +351,20 @@ class App extends Component {
         </div>
         <ul className="list-group list-group-flush">{this.renderItems()}</ul>
         <div className={"news-bar"}>{this.getTodaysNewsItem()}</div>
-      </main>
+      </div>
     );
   }
 
   handleLogoClick() {
     window.location.assign("https://www.lymingtonrushmore.org/");
+  }
+
+  handleFBClick() {
+    window.location.assign("https://www.facebook.com/LRHolidays");
+  }
+
+  handleIGClick() {
+    window.location.assign("https://www.instagram.com/lrholidays/");
   }
 
   /**
@@ -323,14 +380,16 @@ class App extends Component {
 
     return (
       <div className="App">
-        <div className={"page-header"}>
-          <img
-            className={"logo"}
-            src={logo}
-            alt="lym-logo"
-            onClick={this.handleLogoClick}
-          />
-        </div>
+        {!this.isMobile ? (
+          <div className={"page-header"}>
+            <img
+              className={"logo"}
+              src={logo}
+              alt="lym-logo"
+              onClick={this.handleLogoClick}
+            />
+          </div>
+        ) : null}
         {this.requiresLogin ? (
           <Nav
             logged_in={this.state.logged_in}
