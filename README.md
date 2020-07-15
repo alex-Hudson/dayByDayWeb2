@@ -31,7 +31,7 @@ You will need two terminals pointed to the frontend and backend directories to s
 
 ## To deploy on google cloud
 
-1. cd C:\Users\hudso\OneDrive\Documents\Personal\Repos\DjangoToDo\django-todo-react-master\django-todo-react-master\backend>
+1. cd C:\Users\hudso\Documents\Repos\DjangoForLRH\dayByDayWeb2\backend
 2. yarn run build
 3. cd backend -> python manage.py collect static
 4. gcloud app deploy --project daybyday-274307

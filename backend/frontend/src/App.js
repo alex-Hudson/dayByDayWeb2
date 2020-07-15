@@ -3,8 +3,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import logo from "./lym-rush-logo-white.png";
-import arrowRight from "./arrow-right.png";
-import arrowLeft from "./arrow-left.png";
 import Nav from "./components/Nav";
 import LoginForm from "./components/LoginForm";
 import {
@@ -268,7 +266,7 @@ class App extends Component {
           />,
           "Read"
         )}
-        <p className={"reading-item"}>{item.bible_text}</p>
+        {this.parseString(item.bible_text, "reading-item")}
         {this.createCircleIcon(
           <BulbOutlined
             style={{ fontSize: "30px" }}
@@ -276,7 +274,7 @@ class App extends Component {
           />,
           "Engage"
         )}
-        <p className={"reading-item"}>{item.question_text}</p>
+        {this.parseString(item.question_text, "reading-item")}
         {this.createCircleIcon(
           <MessageOutlined
             style={{ fontSize: "30px" }}
@@ -284,7 +282,7 @@ class App extends Component {
           />,
           "Pray"
         )}
-        <p className={"reading-item prayer-text"}>{item.prayer_text}</p>
+        {this.parseString(item.prayer_text, "reading-item prayer-text")}
         {this.isMobile ? (
           <div className={"page-footer"}>
             <InstagramOutlined onClick={this.handleIGClick} />
@@ -300,6 +298,36 @@ class App extends Component {
       </div>
     );
   };
+
+  parseString(string, className) {
+    const stringArray = string.split("/n");
+    return stringArray.map((string) => {
+      return (
+        <p key={string.slice(10)} className={className}>
+          {this.parseSuperScript(string)}
+        </p>
+      );
+    });
+  }
+
+  parseSuperScript(string) {
+    if (string.indexOf("/^") === -1) return string;
+    const strings = string.split("/^");
+
+    const letters = [];
+    strings.forEach((string) => {
+      const firstSpaceIndex = string.indexOf(" ");
+      if (firstSpaceIndex !== -1) {
+        letters.push(<sup>{string.slice(0, firstSpaceIndex)}</sup>);
+        string = string.slice(firstSpaceIndex);
+      }
+      for (const letter of string) {
+        letters.push(letter);
+      }
+    });
+
+    return letters;
+  }
 
   createCircleIcon(icon, text) {
     return (
