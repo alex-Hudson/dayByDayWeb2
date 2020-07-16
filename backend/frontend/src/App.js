@@ -71,7 +71,7 @@ class App extends Component {
       })
       .then((res) => {
         const readingList = res.data;
-        this.setState({ readingList: readingList });
+        this.setState({ readingList: this.removeFutureReadings(readingList) });
         this.setState({ currentItem: this.getTodaysReading() });
       })
       .catch((err) => {
@@ -193,6 +193,16 @@ class App extends Component {
     return sortedActivities;
   }
 
+  removeFutureReadings(readingList) {
+    const today = new Date();
+    const newReadings = readingList.filter((reading) => {
+      return new Date(reading.reading_date) <= today;
+    });
+
+    console.log(readingList, newReadings);
+    return newReadings;
+  }
+
   /**
    * Returns readings recording for today
    */
@@ -261,7 +271,7 @@ class App extends Component {
         </div>
         {this.createCircleIcon(
           <ReadOutlined
-            style={{ fontSize: "30px" }}
+            style={{ fontSize: "30px", color: "#13395c" }}
             className={"circle-icon-logo"}
           />,
           "Read"
@@ -269,7 +279,7 @@ class App extends Component {
         {this.parseString(item.bible_text, "reading-item")}
         {this.createCircleIcon(
           <BulbOutlined
-            style={{ fontSize: "30px" }}
+            style={{ fontSize: "30px", color: "#13395c" }}
             className={"circle-icon-logo"}
           />,
           "Engage"
@@ -277,7 +287,7 @@ class App extends Component {
         {this.parseString(item.question_text, "reading-item")}
         {this.createCircleIcon(
           <MessageOutlined
-            style={{ fontSize: "30px" }}
+            style={{ fontSize: "30px", color: "#13395c" }}
             className={"circle-icon-logo"}
           />,
           "Pray"
@@ -285,14 +295,15 @@ class App extends Component {
         {this.parseString(item.prayer_text, "reading-item prayer-text")}
         {this.isMobile ? (
           <div className={"page-footer"}>
-            <InstagramOutlined onClick={this.handleIGClick} />
-            <FacebookOutlined onClick={this.handleFBClick} />
-            <img
+            {/* <InstagramOutlined onClick={this.handleIGClick} />
+            <FacebookOutlined onClick={this.handleFBClick} /> */}
+            {/* <img
               className={"logo"}
               src={logo}
               alt="lym-logo"
               onClick={this.handleLogoClick}
-            />
+            /> */}
+            <div className={"day-by-day-title"}>Day By Day</div>
           </div>
         ) : null}
       </div>
@@ -410,12 +421,12 @@ class App extends Component {
       <div className="App">
         {!this.isMobile ? (
           <div className={"page-header"}>
-            <img
+            {/* <img
               className={"logo"}
               src={logo}
               alt="lym-logo"
               onClick={this.handleLogoClick}
-            />
+            /> */}
           </div>
         ) : null}
         {this.requiresLogin ? (
