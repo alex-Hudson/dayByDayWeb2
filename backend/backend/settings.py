@@ -98,19 +98,19 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': "/cloudsql/daybyday-274307:europe-west2:postgres",
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'Googleyahoo1',
+        'HOST': "kandula.db.elephantsql.com",
+        'NAME': 'zbtyfcws',
+        'USER': 'zbtyfcws',
+        'PASSWORD': 'fbReBCeplcUTQstjgFwPITjDfcLVVh-L',
         'PORT': '5432',
     }
 }
 
-if os.getenv('GAE_INSTANCE'):
-    pass
-else:
-    DATABASES['default']['HOST'] = 'localhost'
-    DATABASES['default']['NAME'] = 'DayByDayWebsite'
+# if os.getenv('GAE_INSTANCE'):
+#     pass
+# else:
+#     DATABASES['default']['HOST'] = 'localhost'
+#     DATABASES['default']['NAME'] = 'DayByDayWebsite'
 
 
 # Password validation

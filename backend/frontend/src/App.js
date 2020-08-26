@@ -49,11 +49,11 @@ class App extends Component {
           .then((json) => {
             this.setState({ username: json.username });
             this.refreshList();
-            this.getNewsItem();
+            // this.getNewsItem();
           });
       } else {
         this.refreshList();
-        this.getNewsItem();
+        // this.getNewsItem();
       }
     }
   }
@@ -149,7 +149,7 @@ class App extends Component {
           username: json.user.username,
         });
         this.refreshList();
-        this.getNewsItem();
+        // this.getNewsItem();
       })
       .catch((error) => {
         this.setState({
@@ -199,7 +199,6 @@ class App extends Component {
       return new Date(reading.reading_date) <= today;
     });
 
-    console.log(readingList, newReadings);
     return newReadings;
   }
 
@@ -373,7 +372,7 @@ class App extends Component {
     if (!this.state.currentItem) return null;
 
     return (
-      <div style={{ minHeight: "100vh", position: "relative" }}>
+      <div className={"main-div"}>
         <div className={"arrow-container"}>
           <div className={"back-button"} onClick={this.backwardClick}>
             <LeftCircleOutlined style={{ fontSize: "25px" }} />
