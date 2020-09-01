@@ -255,7 +255,7 @@ li.sidebar-item:hover {
     height: 60px;
     background-color: #13395c;
     width: 100vw;
-    left: -22px;
+    left: -19px;
     bottom: -45px;
     position: absolute;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.4' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
@@ -276,7 +276,7 @@ li.sidebar-item:hover {
   }
   .day-by-day-title {
     color: white;
-    left: 65vw;
+    left: 60vw;
     position: relative;
     font-size: x-large;
     top: 10px;
