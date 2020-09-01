@@ -59,7 +59,7 @@ body {
 
 .items {
   width: 100%;
-  left: 15em;
+  left: 0;
   position: absolute;
   min-height: calc(100vh - 125px);
   padding-right: 30px;
@@ -146,9 +146,12 @@ li.sidebar-item:hover {
 }
 
 .list-group {
-  position: absolute;
-  top: 80px;
-  width: calc(100vw - 16em);
+  position: fixed;
+  top: 90px;
+  width: calc(100vw - 15em);
+  height: calc(100vh - 88px);
+  overflow-y: scroll;
+  left: 15em;
 }
 
 .logout-container {
@@ -215,8 +218,11 @@ li.sidebar-item:hover {
     padding-right: 0px;
   }
   .list-group {
+    position: absolute;
     width: calc(100vw - 3em);
     top: 80px;
+    left: 0em;
+    overflow-y: unset;
   }
   .arrow-container {
     left: 0vw;
