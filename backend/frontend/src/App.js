@@ -3,6 +3,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import logo from "./lym-rush-logo-white.png";
+import DayByDayLogo from './DayByDayLogo.svg'
 import Nav from "./components/Nav";
 import LoginForm from "./components/LoginForm";
 import {
@@ -321,14 +322,21 @@ class App extends Component {
   }
 
   parseSuperScript(string) {
-    if (string.indexOf("/^") === -1) return string;
-    const strings = string.split("/^");
+    if (string.indexOf("/^") === -1 && string.indexOf("/b") === -1) return string;
+    const strings = string.split(new RegExp('/'))
 
     const letters = [];
     strings.forEach((string) => {
+      string.replace(/\//g,'')
       const firstSpaceIndex = string.indexOf(" ");
-      if (firstSpaceIndex !== -1) {
-        letters.push(<sup>{string.slice(0, firstSpaceIndex)}</sup>);
+      if (firstSpaceIndex !== -1 && string[0]==='^') {
+        letters.push(<sup>{string.slice(1, firstSpaceIndex)}</sup>);
+        string = string.slice(firstSpaceIndex);
+      } else if (firstSpaceIndex !== -1 && string[0]==='b'){
+        letters.push(<b>{string.slice(1, firstSpaceIndex)}</b>);
+        string = string.slice(firstSpaceIndex);
+      } else if (firstSpaceIndex !== -1 && string[0]==='i'){
+        letters.push(<i>{string.slice(1, firstSpaceIndex)}</i>);
         string = string.slice(firstSpaceIndex);
       }
       for (const letter of string) {
@@ -373,6 +381,11 @@ class App extends Component {
 
     return (
       <div className={"main-div"}>
+        <div className={"day-by-day-logo"} >
+          <img
+            className={"day-by-day-logo-img"} src ={DayByDayLogo} alt ='DayByDayLogo'>
+          </img>
+        </div>
         <div className={"arrow-container"}>
           <div className={"back-button"} onClick={this.backwardClick}>
             <LeftCircleOutlined style={{ fontSize: "25px" }} />

@@ -29,6 +29,12 @@ You will need two terminals pointed to the frontend and backend directories to s
 - [Python](https://www.python.org/) - A programming language that lets you work quickly and integrate systems more effectively.
 - [Django](http://djangoproject.org/) - A high-level Python Web framework that encourages rapid development and clean, pragmatic design.
 
+## To Build
+
+1. cd C:\Users\hudso\Documents\Repos\DjangoForLRH\dayByDayWeb2 and run day_by_day_env.bat
+2. cd backend and run python manage.py runserver
+3. cd frontend and tun yarn start
+
 ## To deploy on google cloud
 
 1. cd C:\Users\hudso\Documents\Repos\DjangoForLRH\dayByDayWeb2\backend
