@@ -322,7 +322,7 @@ class App extends Component {
   }
 
   parseSuperScript(string) {
-    if (string.indexOf("/^") === -1 && string.indexOf("/b") === -1) return string;
+    if (string.indexOf("/^") === -1 && string.indexOf("/b") === -1 && string.indexOf("/i") === -1) return string;
     const strings = string.split(new RegExp('/'))
 
     const letters = [];
