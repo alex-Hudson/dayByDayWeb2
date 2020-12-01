@@ -28,7 +28,7 @@ self.__precacheManifest = [
     "url": "/static/media/lym-rush-logo-white.2c0e3b7c.png"
   },
   {
-    "revision": "a416bb2c95471a7dbe785cc2c52c7601",
+    "revision": "cf543f27f0499784731e8df5d530f112",
     "url": "/index.html"
   }
 ];
