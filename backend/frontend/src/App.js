@@ -3,7 +3,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import logo from "./lym-rush-logo-white.png";
-import DayByDayLogo from './DayByDayLogo.svg'
+import DayByDayLogo from "./DayByDayLogo.svg";
 import Nav from "./components/Nav";
 import LoginForm from "./components/LoginForm";
 import {
@@ -53,6 +53,7 @@ class App extends Component {
             // this.getNewsItem();
           });
       } else {
+        this.getReadingForToday();
         this.refreshList();
         // this.getNewsItem();
       }
@@ -99,6 +100,31 @@ class App extends Component {
       .then((res) => {
         const news_items = res.data;
         this.setState({ news_items });
+      })
+      .catch((err) => {
+        console.log(err);
+        this.setState({
+          loginError: true,
+          logged_in: this.requiresLogin || false,
+          username: null,
+          displayed_form: "login",
+          currentItem: null,
+        });
+        localStorage.removeItem("token");
+      });
+  };
+
+  getReadingForToday = () => {
+    axios
+      .get(`${this.baseUrl}/api/todays_reading/`, {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `JWT ${localStorage.getItem("token")}`,
+        },
+      })
+      .then((res) => {
+        const reading = res.data;
+        this.setState({ currentItem: reading[0] });
       })
       .catch((err) => {
         console.log(err);
@@ -322,20 +348,25 @@ class App extends Component {
   }
 
   parseSuperScript(string) {
-    if (string.indexOf("/^") === -1 && string.indexOf("/b") === -1 && string.indexOf("/i") === -1) return string;
-    const strings = string.split(new RegExp('/'))
+    if (
+      string.indexOf("/^") === -1 &&
+      string.indexOf("/b") === -1 &&
+      string.indexOf("/i") === -1
+    )
+      return string;
+    const strings = string.split(new RegExp("/"));
 
     const letters = [];
     strings.forEach((string) => {
-      string.replace(/\//g,'')
+      string.replace(/\//g, "");
       const firstSpaceIndex = string.indexOf(" ");
-      if (firstSpaceIndex !== -1 && string[0]==='^') {
+      if (firstSpaceIndex !== -1 && string[0] === "^") {
         letters.push(<sup>{string.slice(1, firstSpaceIndex)}</sup>);
         string = string.slice(firstSpaceIndex);
-      } else if (firstSpaceIndex !== -1 && string[0]==='b'){
+      } else if (firstSpaceIndex !== -1 && string[0] === "b") {
         letters.push(<b>{string.slice(1, firstSpaceIndex)}</b>);
         string = string.slice(firstSpaceIndex);
-      } else if (firstSpaceIndex !== -1 && string[0]==='i'){
+      } else if (firstSpaceIndex !== -1 && string[0] === "i") {
         letters.push(<i>{string.slice(1, firstSpaceIndex)}</i>);
         string = string.slice(firstSpaceIndex);
       }
@@ -381,10 +412,12 @@ class App extends Component {
 
     return (
       <div className={"main-div"}>
-        <div className={"day-by-day-logo"} >
+        <div className={"day-by-day-logo"}>
           <img
-            className={"day-by-day-logo-img"} src ={DayByDayLogo} alt ='DayByDayLogo'>
-          </img>
+            className={"day-by-day-logo-img"}
+            src={DayByDayLogo}
+            alt="DayByDayLogo"
+          ></img>
         </div>
         <div className={"arrow-container"}>
           <div className={"back-button"} onClick={this.backwardClick}>

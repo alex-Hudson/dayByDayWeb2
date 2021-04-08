@@ -13,6 +13,7 @@ from django.conf import settings
 
 router = routers.DefaultRouter()    
 router.register(r'readings', views.DayByDayView, 'readings')
+router.register(r'todays_reading', views.TodayView, 'todays_reading')
 router.register(r'news_items', views.NewsView, 'news_items')
         
 urlpatterns = [

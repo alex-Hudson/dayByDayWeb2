@@ -18,6 +18,7 @@ from django.conf import settings
 import os
 import logging
 import urllib.request
+import datetime
 
 
 class DayByDayView(viewsets.ModelViewSet):       
@@ -26,6 +27,13 @@ class DayByDayView(viewsets.ModelViewSet):
   def get_queryset(self):
     return Reading.objects.all().order_by('-reading_date')
 
+class TodayView(viewsets.ModelViewSet):       
+  serializer_class = DayByDaySerializer      
+
+  def get_queryset(self):
+    today = datetime.datetime.today()
+    current_reading = Reading.objects.filter(reading_date__year=today.year,reading_date__month=today.month,reading_date__day=today.day)
+    return current_reading
 
 class NewsView(viewsets.ModelViewSet):       
   serializer_class = NewsItemSerializer      
