@@ -11,7 +11,7 @@ django-rest-knox==4.1.0
 djangorestframework==3.11.0
 djangorestframework-jwt==1.11.0
 filelock==3.0.12
-pipenv==2018.11.26
+pipenv==2022.1.8
 psycopg2==2.8.4
 pycparser==2.20
 PyJWT==1.7.1
