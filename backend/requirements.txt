@@ -14,7 +14,7 @@ filelock==3.0.12
 pipenv==2018.11.26
 psycopg2==2.8.4
 pycparser==2.20
-PyJWT==1.7.1
+PyJWT==2.4.0
 python-monkey-business==1.0.0
 pytz==2020.1
 six==1.14.0
